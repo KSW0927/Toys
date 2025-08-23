@@ -11,4 +11,6 @@ public class ToyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ToyApplication.class, args);
 	}
+	
+	
 }
