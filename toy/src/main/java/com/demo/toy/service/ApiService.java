@@ -59,6 +59,10 @@ public class ApiService {
         return apiRepository.findByGalPhotographyLocationContaining(galPhotographyLocation, pageable);
     }
     
+    public ApiEntity findById(Long  id) {
+        return apiRepository.findById(id).orElse(null);
+    }
+    
     // 단건 저장
     public ApiEntity save(ApiEntity entity) {
         return apiRepository.save(entity);

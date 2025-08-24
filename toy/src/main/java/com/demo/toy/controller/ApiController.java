@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,7 +103,7 @@ public class ApiController {
         return apiService.getAllData(page, size);
     }
 
-    // 지역 검색 + 페이징
+    // 조회 + 페이징
     @GetMapping("/data/search")
     public Page<ApiEntity> searchByGalPhotographyLocation(
     		@RequestParam("galPhotographyLocation") String galPhotographyLocation,
@@ -110,6 +111,17 @@ public class ApiController {
     	    @RequestParam(name = "size", defaultValue = "9") int size
     		) {
         return apiService.searchByGalPhotographyLocation(galPhotographyLocation, page, size);
+    }
+    
+    // 상세 조회
+    @GetMapping("/data/{id}")
+    public ResponseEntity<ApiEntity> getDetail(@PathVariable("id") Long id) {
+        ApiEntity entity = apiService.findById(id);
+        if (entity != null) {
+            return ResponseEntity.ok(entity);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
     
     // 이미지 업로드 API
