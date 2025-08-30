@@ -47,12 +47,6 @@ public class ApiService {
         return apiRepository.saveAll(entityList);
     }
     
-    // 전체 조회 + 페이징
-    public Page<ApiEntity> getAllData(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return apiRepository.findAll(pageable);
-    }
-
     // 지역 검색 조회 + 페이징
     public Page<ApiEntity> searchByGalPhotographyLocation(String galPhotographyLocation, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "galCreatedTime"));
@@ -66,5 +60,9 @@ public class ApiService {
     // 단건 저장
     public ApiEntity save(ApiEntity entity) {
         return apiRepository.save(entity);
+    }
+    
+    public void delete(Long id) {
+    	apiRepository.deleteById(id);
     }
 }
