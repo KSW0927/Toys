@@ -1,5 +1,7 @@
 package com.demo.toy.entity;
 
+import com.demo.toy.dto.ApiDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -130,5 +132,16 @@ public class ApiEntity {
 
     public void setGalSearchKeyword(String galSearchKeyword) {
         this.galSearchKeyword = galSearchKeyword;
+    }
+    
+    public void update(ApiDTO dto) {
+        this.galTitle = dto.getGalTitle();
+        this.galWebImageUrl = dto.getGalWebImageUrl();
+        this.galPhotographyMonth = dto.getGalPhotographyMonth();
+        this.galPhotographyLocation = dto.getGalPhotographyLocation();
+        this.galPhotographer = dto.getGalPhotographer();
+        this.galSearchKeyword = dto.getGalSearchKeyword();
+        this.galModifiedTime = java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
 }
