@@ -2,6 +2,7 @@ package com.demo.toy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -21,8 +22,13 @@ public class CorsConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         
-        // /rest이하 경로 허용
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
+    }
+    
+    // RestTemplate 빈 등록
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

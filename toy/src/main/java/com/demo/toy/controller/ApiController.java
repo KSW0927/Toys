@@ -1,9 +1,7 @@
 package com.demo.toy.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,223 +14,96 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.demo.toy.common.ApiResponse;
 import com.demo.toy.common.ResponseResult;
 import com.demo.toy.dto.ApiDTO;
+import com.demo.toy.dto.ApiSearchParamsDTO;
 import com.demo.toy.entity.ApiEntity;
 import com.demo.toy.service.ApiService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/data")
 public class ApiController {
 
     private final ApiService apiService;
-    private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
 
     public ApiController(ApiService apiService) {
         this.apiService = apiService;
-        this.restTemplate = new RestTemplate();
-        this.objectMapper = new ObjectMapper();
     }
 
-    // 동기화
-    @PostMapping("/sync")
-    public ResponseEntity<?> apiSync() {
-        try {
-            String serviceKey = "XsHEUftHrR8BU7rVbvE/4y3hbn4XXwfS5BpxrMBbTZhGNWqI935dAI6i97WctO3EoAW5saabVeBUWG2qSOp3xg==";
-            String baseUrl = "https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1";
+    /**
+     * 동기화
+     */
+    @PostMapping("/pictures/sync")
+    public ResponseEntity<ApiResponse<List<ApiEntity>>> syncPicture() {
+        List<ApiEntity> syncedList = apiService.syncPicture();
 
-            int numOfRows = 1000;
-            int pageNo = 1;
-            int totalCount = Integer.MAX_VALUE;
+        ApiResponse<List<ApiEntity>> response;
 
-            List<ApiEntity> newEntities = new ArrayList<>();
-
-            while ((pageNo - 1) * numOfRows < totalCount) {
-                String apiUrl = baseUrl
-                        + "?serviceKey=" + serviceKey
-                        + "&numOfRows=" + numOfRows
-                        + "&pageNo=" + pageNo
-                        + "&MobileOS=ETC&MobileApp=AppTest&arrange=A&_type=json";
-
-                Map<String, Object> response = restTemplate.getForObject(apiUrl, Map.class);
-                Map<String, Object> body = (Map<String, Object>) ((Map<String, Object>) response.get("response")).get("body");
-
-                if (totalCount == Integer.MAX_VALUE) {
-                    totalCount = (int) body.get("totalCount");
-                }
-
-                Map<String, Object> items = (Map<String, Object>) body.get("items");
-                List<Map<String, Object>> itemList = (List<Map<String, Object>>) items.get("item");
-
-                for (Map<String, Object> itemMap : itemList) {
-                    String galContentId = (String) itemMap.get("galContentId");
-
-                    // 중복 체크
-                    if (!apiService.existsByGalContentId(galContentId)) {
-                        ApiEntity entity = new ApiEntity(
-                                galContentId,
-                                (String) itemMap.get("galContentTypeId"),
-                                (String) itemMap.get("galTitle"),
-                                (String) itemMap.get("galWebImageUrl"),
-                                (String) itemMap.get("galCreatedtime"),
-                                (String) itemMap.get("galModifiedtime"),
-                                (String) itemMap.get("galPhotographyMonth"),
-                                (String) itemMap.get("galPhotographyLocation"),
-                                (String) itemMap.get("galPhotographer"),
-                                (String) itemMap.get("galSearchKeyword")
-                        );
-                        newEntities.add(entity);
-                    }
-                }
-
-                pageNo++;
-            }
-
-            if (newEntities.isEmpty()) {
-                return ResponseEntity.ok("새로운 데이터가 없습니다.");
-            } else {
-                List<ApiEntity> saved = apiService.saveAll(newEntities);
-                return ResponseEntity.status(201).body(saved); // 201 Created
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("동기화 중 오류 발생: " + e.getMessage());
+        if (syncedList.isEmpty()) {
+            response = new ApiResponse<>(ResponseResult.SUCCESS_NO_DATA, syncedList);
+        } else {
+            response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, syncedList);
         }
+
+        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response);
     }
     
-    // 목록 조회
-    @GetMapping("/search")
-    public ResponseEntity<?> searchByGalPhotographyLocation(
-            @RequestParam("galPhotographyLocation") String galPhotographyLocation,
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "9") int size
-    ) {
-        Page<ApiEntity> result = apiService.searchByGalPhotographyLocation(galPhotographyLocation, page, size);
-        return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode())
-                             .body(result);
+    /**
+     * 목록
+     */
+    @GetMapping("/pictures")
+    public ResponseEntity<?> getPictureList(ApiSearchParamsDTO searchDTO) {
+        Page<ApiEntity> result = apiService.getPictureList(searchDTO);
+        return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(result);
     }
     
-    // 상세 조회
-//    @GetMapping("/detail/{id}")
-//    public ResponseEntity<?> getDetail(@PathVariable("id") Long id) {
-//        ApiEntity entity = apiService.findById(id);
-//        if (entity != null) {
-//            return ResponseEntity.status(ResponseResult.SUCCESS_FETCH.getCode())
-//                                 .body(entity);
-//        } else {
-//            return ResponseEntity.status(ResponseResult.ERROR_NOT_FOUND.getCode())
-//                                 .body(ResponseResult.ERROR_NOT_FOUND.getMessage());
-//        }
-//    }
-
-    // 저장
-//    @PostMapping("/insert")
-//    public ResponseEntity<?> insertGallery(@RequestBody ApiEntity apiEntity) throws Exception {
-//        if (apiEntity.getGalContentId() == null || apiEntity.getGalContentId().isEmpty()) {
-//            apiEntity.setGalContentId(System.currentTimeMillis() + "");
-//        }
-//        
-//        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-//        apiEntity.setGalCreatedTime(now);
-//
-//        ApiEntity saved = apiService.save(apiEntity);
-//        
-//        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode())
-//                             .body(ResponseResult.SUCCESS_SAVE.getMessage());
-//    }
-
-    // 수정
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<?> updateGallery(@PathVariable("id") Long id, @RequestBody ApiDTO dto) {
-//        apiService.update(id, dto);
-//        return ResponseEntity.status(ResponseResult.SUCCESS_UPDATE.getCode())
-//                             .body(ResponseResult.SUCCESS_UPDATE.getMessage());
-//    }
-    
-    // 삭제
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-//        ApiEntity existing = apiService.findById(id);
-//        if (existing == null) {
-//            return ResponseEntity.status(ResponseResult.ERROR_NOT_FOUND.getCode())
-//                                 .body(ResponseResult.ERROR_NOT_FOUND.getMessage());
-//        }
-//
-//        apiService.delete(id);
-//        
-//        return ResponseEntity.status(ResponseResult.SUCCESS_DELETE.getCode())
-//                             .body(ResponseResult.SUCCESS_DELETE.getMessage());
-//    }
-    
-    // 이미지 업로드
-//  @PostMapping("/upload")
-//  public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-//      try {
-//          String uploadDir = "C:/dev/demo/uploads/";
-//          File dir = new File(uploadDir);
-//          if (!dir.exists() && !dir.mkdirs()) {
-//              return ResponseEntity.status(ResponseResult.ERROR_SERVER.getCode())
-//                                   .body("업로드 폴더 생성 실패: " + uploadDir);
-//          }
-//
-//          String originalFileName = file.getOriginalFilename();
-//          if (originalFileName != null) {
-//              originalFileName = new String(originalFileName.getBytes("ISO-8859-1"), "UTF-8");
-//          }
-//          String fileName = System.currentTimeMillis() + "_" + originalFileName;
-//          File dest = new File(uploadDir + fileName);
-//          file.transferTo(dest);
-//
-//          String filePath = "/uploads/" + fileName;
-//          return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(filePath);
-//      } catch (Exception e) {
-//          e.printStackTrace();
-//          return ResponseEntity.status(ResponseResult.ERROR_SERVER.getCode())
-//                               .body(ResponseResult.ERROR_SERVER.getMessage() + ": " + e.getMessage());
-//      }
-//  }
-    
-    // 저장
-    @PostMapping("/insert")
-    public ResponseEntity<String> insert(@RequestBody ApiEntity apiEntity) {
-        ApiEntity saved = apiService.save(apiEntity);
+    /**
+     * 저장
+     */
+    @PostMapping("/pictures")
+    public ResponseEntity<String> insertPicture(@RequestBody ApiEntity apiEntity) {
+        ApiEntity saved = apiService.insertPicture(apiEntity);
         ApiResponse<ApiEntity> response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, saved);
         return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response.getMessage());
     }
     
-    // 상세
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<?> detail(@PathVariable("id") Long id) {
-        ApiEntity entity = apiService.getDetail(id);
+    /**
+     * 상세
+     */
+    @GetMapping("/pictures/{id}")
+    public ResponseEntity<?> getPictureDetail(@PathVariable("id") Long id) {
+        ApiEntity entity = apiService.getPictureDetail(id);
         return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(entity);
     }
 
-    // 수정
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") Long id, @RequestBody ApiDTO dto) {
-        ApiEntity updated = apiService.update(id, dto);
+    /**
+     * 수정
+     */
+    @PutMapping("/pictures/{id}")
+    public ResponseEntity<String> updatePicture(@PathVariable("id") Long id, @RequestBody ApiDTO dto) {
+        ApiEntity updated = apiService.updatePicture(id, dto);
         ApiResponse<ApiEntity> response = new ApiResponse<>(ResponseResult.SUCCESS_UPDATE, updated);
         return ResponseEntity.status(ResponseResult.SUCCESS_UPDATE.getCode()).body(response.getMessage());
     }
     
-    // 삭제
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        apiService.delete(id);
+    /**
+     * 삭제
+     */
+    @DeleteMapping("/pictures/{id}")
+    public ResponseEntity<String> deletePicture(@PathVariable("id") Long id) {
+        apiService.deletePicture(id);
         return ResponseEntity.status(ResponseResult.SUCCESS_DELETE.getCode()).body(ResponseResult.SUCCESS_DELETE.getMessage());
     }
 
-    // 업로드
-    @PostMapping("/upload")
-    public ResponseEntity<ApiResponse<String>> upload(@RequestParam("file") MultipartFile file) throws IOException {
-    	String filePath = apiService.uploadFile(file);
+    /**
+     * 업로드
+     */
+    @PostMapping("/pictures/upload")
+    public ResponseEntity<ApiResponse<String>> uploadPicture(@RequestParam("file") MultipartFile file) throws IOException {
+    	String filePath = apiService.uploadPicture(file);
         return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(new ApiResponse<>(ResponseResult.SUCCESS_SAVE, filePath));
     }
 }

@@ -34,10 +34,8 @@ public class ApiDTO {
     @JsonProperty("galSearchKeyword")
     private String galSearchKeyword;
 
-    // 기본 생성자
     public ApiDTO() {}
 
-    // 모든 필드를 받는 생성자
     public ApiDTO(String galContentId, String galContentTypeId, String galTitle, String galWebImageUrl,
                   String galCreatedTime, String galModifiedTime, String galPhotographyMonth,
                   String galPhotographyLocation, String galPhotographer, String galSearchKeyword) {

@@ -13,7 +13,6 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())                					// CSRF 비활성화
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());	// 모든 요청 허용
-
         return http.build();
     }
 }

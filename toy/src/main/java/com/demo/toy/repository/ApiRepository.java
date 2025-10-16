@@ -10,6 +10,5 @@ public interface ApiRepository extends JpaRepository<ApiEntity, Long> {
 	// 데이터 동기화 시 PK값으로 중복 체크
 	boolean existsByGalContentId(String galContentId);
 	
-	// 지역별 검색
 	Page<ApiEntity> findByGalPhotographyLocationContaining(String galPhotographyLocation, Pageable pageable);
 }
