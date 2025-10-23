@@ -17,9 +17,18 @@
 <br><br>
 
 <h3 align="center">프로젝트 목표 및 개발 중점 사항</h3><br>
-<p align="left">
+<p align="center">
     1. Back-end로는 서비스 기업의 표준인 <strong>Spring Boot</strong> 와 <strong>JPA</strong>를 활용하여 <strong>RESTful API</strong> 설계 및 ORM 기반의 개발 방식을 숙련하는 데 집중.<br>
     2. Front-end로는 React를 통해 컴포넌트 기반 UI 개발과 SPA 환경에서의 비동기 통신(Axios) 경험.
+</p>
+
+<br><br>
+
+<h3 align="center">추후 개선 사항</h3><br>
+<p align="center">
+    1. 기존 코드의 리팩토링 및 보완<br>
+    2. JWT(JSON Web Token)기반의 로그인 및 권한 관리 기능 구현<br>
+    3. 캐싱도입 
 </p>
 
 <br><br>
