@@ -1,5 +1,6 @@
 <h1 align="center">Hi 👋, I'm 김석원</h1>
 <h3 align="center">3년차 개발자입니다.</h3>
+<img width="1300" height="1072" alt="image" src="https://github.com/user-attachments/assets/ca2234bb-10f7-44a6-8904-8f6cd058e0c9" />
 
 <p align="center">-  자기소개 1</p>
 <p align="center">-  자기소개 2</p>
