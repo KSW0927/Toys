@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.demo.toy.common.FileUploadException;
 import com.demo.toy.common.NotFoundException;
 import com.demo.toy.dto.ApiDTO;
 import com.demo.toy.dto.ApiSearchParamsDTO;
@@ -29,6 +32,9 @@ public class ApiService {
 
     private final ApiRepository apiRepository;
     private final RestTemplate restTemplate;
+    
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     public ApiService(ApiRepository apiRepository, RestTemplate restTemplate) {
         this.apiRepository = apiRepository;
@@ -119,16 +125,14 @@ public class ApiService {
             Sort.by(Sort.Direction.DESC, "galCreatedTime")
         );
 
-        return apiRepository.findByGalPhotographyLocationContaining(
-            searchDTO.getLocation(), pageable
-        );
+        return apiRepository.findByGalPhotographyLocationContaining(searchDTO.getLocation(), pageable);
     }
     
     /**
      * 상세
      */
     public ApiEntity getPictureDetail(Long id) {
-    	return apiRepository.findById(id).orElseThrow(() -> new NotFoundException("id=" + id + " 데이터 없음"));
+    	return apiRepository.findById(id).orElseThrow(() -> new NotFoundException("id=" + id));
     }
     
     /**
@@ -151,7 +155,7 @@ public class ApiService {
      */
     @Transactional
     public ApiEntity updatePicture(Long id, ApiDTO dto) {
-        ApiEntity entity = apiRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 엔티티가 없습니다. id=" + id));
+        ApiEntity entity = apiRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("id=" + id));
         entity.update(dto);
         return entity;
     }
@@ -161,7 +165,7 @@ public class ApiService {
      */
     public void deletePicture(Long id) {
         if (!apiRepository.existsById(id)) {
-            throw new IllegalArgumentException("삭제할 엔티티가 없습니다. id=" + id);
+            throw new IllegalArgumentException("id=" + id);
         }
         apiRepository.deleteById(id);
     }
@@ -171,25 +175,24 @@ public class ApiService {
      */
     public String uploadPicture(MultipartFile file) {
         try {
-            String uploadDir = "C:/dev/demo/uploads/";
             File dir = new File(uploadDir);
             if (!dir.exists() && !dir.mkdirs()) {
-                throw new RuntimeException("업로드 폴더 생성 실패: " + uploadDir);
+                throw new FileUploadException("업로드 폴더 생성 실패");
             }
 
             String originalFileName = file.getOriginalFilename();
-            if (originalFileName != null) {
-                originalFileName = new String(originalFileName.getBytes("ISO-8859-1"), "UTF-8");
+            if (originalFileName == null) {
+                throw new FileUploadException("파일 이름이 없습니다.");
             }
 
-            String fileName = System.currentTimeMillis() + "_" + originalFileName;
-            File dest = new File(uploadDir + fileName);
+            String fileName = UUID.randomUUID() + "_" + originalFileName;
+            File dest = new File(uploadDir, fileName);
             file.transferTo(dest);
 
             return "/uploads/" + fileName;
 
         } catch (IOException e) {
-            throw new RuntimeException("파일 업로드 실패", e);
+            throw new FileUploadException("파일 업로드 실패", e);
         }
     }
 }
