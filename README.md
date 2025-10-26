@@ -27,7 +27,7 @@
 <h3 align="left">추후 개선 사항</h3><br>
 <p align="left">
     1. 기존 코드의 리팩토링 및 보완(상시)<br>
-    2. Swagger 연동(2025.10.24 완료)<br>
+    2. Swagger 연동(2025.10.25 완료)<br>
     3. JWT(JSON Web Token)기반의 로그인 및 권한 관리 기능 구현<br>
     3. 캐싱도입 
 </p>
