@@ -28,7 +28,7 @@
 <p align="left">
     1. 기존 코드의 리팩토링 및 보완(상시)<br>
     2. Swagger 연동(2025.10.25 완료)<br>
-    3. JWT(JSON Web Token)기반의 로그인 및 권한 관리 기능 구현<br>
+    3. 회원가입 및 JWT(JSON Web Token)기반의 로그인 및 권한 관리 기능 구현(10.26 ~ 진행중)<br>
     3. 캐싱도입 
 </p>
 
