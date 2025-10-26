@@ -112,7 +112,7 @@ public class ApiService {
             return apiRepository.saveAll(newEntities);
         }
 
-        return Collections.emptyList();
+        return newEntities;
     }
 
     /**
