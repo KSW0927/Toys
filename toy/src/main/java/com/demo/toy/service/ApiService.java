@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.demo.toy.common.FileUploadException;
-import com.demo.toy.common.NotFoundException;
+import com.demo.toy.common.exception.FileUploadException;
+import com.demo.toy.common.exception.NotFoundException;
 import com.demo.toy.dto.ApiDTO;
 import com.demo.toy.dto.ApiSearchParamsDTO;
 import com.demo.toy.entity.ApiEntity;

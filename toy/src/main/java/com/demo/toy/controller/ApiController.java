@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.demo.toy.common.ApiResponse;
-import com.demo.toy.common.ResponseResult;
+import com.demo.toy.common.response.ApiResponse;
+import com.demo.toy.common.response.ResponseResult;
 import com.demo.toy.dto.ApiDTO;
 import com.demo.toy.dto.ApiSearchParamsDTO;
 import com.demo.toy.entity.ApiEntity;

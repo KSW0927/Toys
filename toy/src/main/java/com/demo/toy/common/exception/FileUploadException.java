@@ -1,4 +1,4 @@
-package com.demo.toy.common;
+package com.demo.toy.common.exception;
 
 /**
  * 업로드 관련 전용 예외

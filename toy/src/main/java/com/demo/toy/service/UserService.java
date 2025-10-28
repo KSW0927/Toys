@@ -3,6 +3,8 @@ package com.demo.toy.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.demo.toy.common.exception.BusinessException;
+import com.demo.toy.common.response.ResponseResult;
 import com.demo.toy.dto.SignUpRequestDTO;
 import com.demo.toy.dto.SignUpResponseDTO;
 import com.demo.toy.entity.UserEntity;
@@ -25,7 +27,7 @@ public class UserService {
     public SignUpResponseDTO signUp(SignUpRequestDTO dto) {
         // 1. 아이디 중복 체크
         if (userRepository.existsByUsername(dto.getUserId())) {
-            throw new RuntimeException("이미 존재하는 아이디입니다.");
+            throw new BusinessException(ResponseResult.ERROR_DUPLICATE);
         }
 
         // 2. Entity 생성 & 비밀번호 암호화
