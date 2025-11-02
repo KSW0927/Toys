@@ -60,10 +60,6 @@
 <h3 align="center">4. CORS 처리</h3><br>
 <img style="width: 100%;" height="356" alt="image" src="https://github.com/user-attachments/assets/8ae6c16d-2eb4-426a-ba81-f944f863df1b" />
 
-<p align="center">
-   CorsFilter를 이용한 전역 CORS 설정을 통해 React 로컬 서버(http://localhost:3000)에서의 접근을 명시적으로 허용
-</p>
-
 <br><br>
 
 <h3 align="center">5. CSRF 처리</h3><br>
