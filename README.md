@@ -33,27 +33,25 @@
 
 <br><br>
 
-<h3 align="center">1. RESTful API 구현</h3><br>
-<img style="width: 100%;" height="838" alt="image" src="https://github.com/user-attachments/assets/14eabecd-dfe9-4c8e-817f-03943ca4b7fa" />
+<h3 align="left">1. 전역 예외 처리 구현</h3><br>
+이 프로젝트의 전역 예외 처리 구조는 저의 공공 SI 프로젝트 구축 및 운영 경험에서 비롯된 필요성에 의해 구현하였습니다.
+<br><br>
+다수의 개발자가 참여하는 SI 환경에서 개별적인 try-catch 블록 사용은 예외 처리 방식의 일관성을 크게 저하시켰습니다.
+<br><br>
+이로 인해 개발 및 유지보수 과정에서 오류 디버깅 시간이 지연되고, 코드의 응집성이 저하되어 시스템 파악 및 수정에 어려움이 있어
+<br><br>
+'예외 처리도 공통화 했으면 좋겠다' 라는 생각에서 시작해 설계하였으며 유지보수성과 확장성을 최우선으로 고려하여
+<br><br>
+예외 처리의 공통화를 토이 프로젝트의 핵심 설계 목표 중 하나로 설정했습니다.
 
 <br><br>
 
-<h3 align="center">2. 전역 예외 처리 구현</h3><br>
-<img style="width: 100%;" height="393" alt="image" src="https://github.com/user-attachments/assets/ebd5174d-8c14-44a3-9db0-a8439f37db2e" />
-
-<br><br>
-
-<h3 align="center">3. API 응답 구조</h3>
-<table>
-  <tr>
-    <td width="50%">
-      <img src="https://github.com/user-attachments/assets/6516dbda-09dd-40de-8d99-9c873d377525" style="width: 100%;"/>      
-    </td>
-    <td width="50%">
-      <img src="https://github.com/user-attachments/assets/40c5b5e2-e473-4e90-8697-87b2f4e13dc5" style="width: 100%;"/>
-    </td>
-  </tr>
-</table>
+<h3 align="left">2. API 응답 구조</h3>
+전역 예외 처리 도입 후, 성공 응답에 대한 일관성을 확보하는 것이 다음 목표였습니다.<br><br>
+SI 프로젝트에서 API를 개발할 때, 응답 데이터 필드가 API마다 제각각이었습니다. 예를 들어, 어떤 API는 핵심 데이터를 response.result로 반환했지만,<br><br>
+다른 API는 response.data로 반환하는 등 속성명 자체가 통일되지 않았습니다.<br><br>
+이로 인해 클라이언트 개발 시 API를 호출할 때마다 응답 구조를 확인하고 다른 파싱 로직을 적용해야 하는 비효율성이 발생했습니다.<br><br>
+그래서 전역 예외 처리 이후 API 응답 구조 또한 통일되도록 설계하였습니다.
 
 <br><br>
 
