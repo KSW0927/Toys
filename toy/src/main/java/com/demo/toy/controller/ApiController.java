@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/data")
-@Tag(name = "명소 관리 API", description = "사진 업로드, 조회, 삭제 API")
+@Tag(name = "명소 API", description = "사진 업로드, 조회, 삭제 API")
 public class ApiController {
 
     private final ApiService apiService;
