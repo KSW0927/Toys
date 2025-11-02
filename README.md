@@ -13,13 +13,12 @@
 
 <h3 align="center">공공데이터 포털에 전국의 명소 데이터를 기반으로 Spring Boot + React + JPA를 활용한 토이프로젝트입니다.</h3>
 
-
 <br><br>
 
 <h3 align="left">프로젝트 목표 및 개발 중점 사항</h3><br>
 <p align="left">
     1. Back-end로는 서비스 기업의 표준인 <strong>Spring Boot</strong> 와 <strong>JPA</strong>를 활용하여 <strong>RESTful API</strong> 설계 및 ORM 기반의 개발 방식을 숙련하는 데 집중.<br>
-    2. Front-end로는 React를 통해 컴포넌트 기반 UI 개발과 SPA 환경에서의 비동기 통신(Axios) 경험.
+    2. Front-end로는 React를 통해 컴포넌트 기반 UI 개발과 SPA 환경에서의 비동기 통신 경험.
 </p>
 
 <br><br>
@@ -28,8 +27,8 @@
 <p align="left">
     1. 기존 코드의 리팩토링 및 보완(상시)<br>
     2. Swagger 연동(2025.10.25 완료)<br>
-    3. 회원가입 및 JWT(JSON Web Token)기반의 로그인 및 권한 관리 기능 구현(10.26 ~ 진행중)<br>
-    3. 캐싱도입 
+    3. 회원가입 및 Docker + Redis + JWT 를 활용한 로그인 및 로그 아웃 기능 구현(10.26 ~ 11.02 완료)<br>
+    4. 캐싱도입 
 </p>
 
 <br><br>
