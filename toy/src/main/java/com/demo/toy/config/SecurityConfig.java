@@ -2,6 +2,7 @@ package com.demo.toy.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,33 +12,62 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.demo.toy.common.jwt.JwtAuthenticationFilter;
 import com.demo.toy.common.jwt.JwtTokenProvider;
 
+import org.springframework.security.config.http.SessionCreationPolicy;
+
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.List;
+
+import org.springframework.web.client.RestTemplate;
+
 @Configuration
 public class SecurityConfig {
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenProvider jwtTokenProvider) throws Exception {
-	    http
-	        // CSRF 비활성화 (REST API용)
-	        .csrf(csrf -> csrf.disable())
-
-	        // 요청 권한 설정
-	        .authorizeHttpRequests(auth -> auth
-	            // 로그인, swagger, API 문서 등은 인증 없이 허용
-//	            .requestMatchers("/api/users/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-	            .requestMatchers("/api/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-	            // 나머지 요청은 인증 필요
-	            .anyRequest().authenticated()
-	        )
-
-	        // JWT 필터 추가
+	 @Bean
+	 public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenProvider jwtTokenProvider) throws Exception {
+	     http
+	     	.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+	     	.csrf(csrf -> csrf.disable())
+	         
+	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
+	         
 	        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), 
-	                         UsernamePasswordAuthenticationFilter.class);
-
-	    return http.build();
+	                          UsernamePasswordAuthenticationFilter.class)
+	        .authorizeHttpRequests(auth -> auth
+	        		
+	        // 비로그인 허용
+	        .requestMatchers("/api/users/**", "/swagger-ui/**").permitAll()
+	        .requestMatchers(HttpMethod.GET, "/api/data/pictures").permitAll() 
+	        
+	        // 비로그인 미허용
+	        .requestMatchers("/api/data/pictures/**").authenticated()
+	        .anyRequest().authenticated()
+	         );
+	     return http.build();
+	 }
+ 
+	 @Bean
+	 public CorsConfigurationSource corsConfigurationSource() {
+	     CorsConfiguration configuration = new CorsConfiguration();
+	     
+	     configuration.setAllowedOrigins(List.of("http://localhost:3000")); 
+	     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	     configuration.setAllowedHeaders(List.of("*"));
+	     configuration.setAllowCredentials(true); 
+	
+	     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	     source.registerCorsConfiguration("/**", configuration);
+	     return source;
+	 }
+ 
+	 @Bean
+	 public PasswordEncoder passwordEncoder() {
+	     return new BCryptPasswordEncoder();
+	 }
+ 
+	@Bean
+	public RestTemplate restTemplate() {
+	   return new RestTemplate();
 	}
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

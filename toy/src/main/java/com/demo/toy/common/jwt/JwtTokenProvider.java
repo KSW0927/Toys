@@ -16,10 +16,12 @@ public class JwtTokenProvider {
 
     @Value("${jwt.secret}")
     private String secret;
-
+    
+    // application.properties에 설정한 Access Token의 만료 시간
     @Value("${jwt.access-token-expiration}")
     private long accessTokenExpiration;
 
+    // application.properties에 설정한 refresh Token의 만료 시간
     @Value("${jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
 
@@ -29,7 +31,6 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    // =========================
     // Access Token 생성
     public String createAccessToken(String userId) {
         Date now = new Date();
@@ -43,7 +44,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // =========================
     // Refresh Token 생성
     public String createRefreshToken(String userId) {
         Date now = new Date();
@@ -57,12 +57,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // =========================
     // 토큰 유효성 검사
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
+            
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }

@@ -22,15 +22,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, 
+    								HttpServletResponse response, 
+    								FilterChain filterChain) throws ServletException, IOException {
         String token = resolveToken(request);
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             String userId = jwtTokenProvider.getUserId(token);
-
-            // 인증 객체 생성 (권한은 단순 USER로 예시)
+            
             UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(
                             userId, null, List.of(new SimpleGrantedAuthority("ROLE_USER"))
@@ -45,9 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Authorization 헤더에서 "Bearer " 제거 후 토큰 추출
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
+        
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
+        
         return null;
     }
 }

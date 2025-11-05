@@ -15,6 +15,7 @@ public enum ResponseResult {
     SUCCESS_UPLOAD      	(201, "파일 업로드가 완료되었습니다."),
     ERROR_DUPLICATE     	(400, "중복된 아이디 입니다."),
     ERROR_INVALID_PASSWORD	(401, "비밀번호가 일치하지 않습니다."),
+    ERROR_NOT_AUTH     		(403, "권한이 없습니다."),
     ERROR_NOT_FOUND     	(404, "데이터를 찾을 수 없습니다."),
     ERROR_UPLOAD        	(500, "파일 업로드에 실패했습니다."),
     ERROR_SERVER        	(500, "서버 에러가 발생했습니다.");
