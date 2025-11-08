@@ -29,16 +29,16 @@ public class SecurityConfig {
 	     http
 	     	.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 	     	.csrf(csrf -> csrf.disable())
-	         
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
-	         
-	        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), 
-	                          UsernamePasswordAuthenticationFilter.class)
+	        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
 	        .authorizeHttpRequests(auth -> auth
 	        		
 	        // 비로그인 허용
 	        .requestMatchers("/api/users/**", "/swagger-ui/**").permitAll()
-	        .requestMatchers(HttpMethod.GET, "/api/data/pictures").permitAll() 
+	        .requestMatchers(HttpMethod.GET, "/api/data/pictures").permitAll()
+	        
+	        // 정적 리소스 허용
+	        .requestMatchers("/uploads/**").permitAll()
 	        
 	        // 비로그인 미허용
 	        .requestMatchers("/api/data/pictures/**").authenticated()

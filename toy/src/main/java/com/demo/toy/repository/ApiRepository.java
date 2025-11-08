@@ -8,7 +8,7 @@ import com.demo.toy.entity.ApiEntity;
 
 public interface ApiRepository extends JpaRepository<ApiEntity, Long> {
 	// 데이터 동기화 시 PK값으로 중복 체크
-	boolean existsByGalContentId(String galContentId);
+//	boolean existsByGalContentId(String galContentId);
 	
-	Page<ApiEntity> findByGalPhotographyLocationContaining(String galPhotographyLocation, Pageable pageable);
+	Page<ApiEntity> findByTitleContaining(String title, Pageable pageable);
 }

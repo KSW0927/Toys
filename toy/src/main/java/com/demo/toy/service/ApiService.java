@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -40,79 +37,79 @@ public class ApiService {
         this.restTemplate = restTemplate;
     }
 
-    public ApiEntity initApiData(ApiDTO dto) {
-        ApiEntity entity = new ApiEntity(
-                dto.getGalContentId(),
-                dto.getGalContentTypeId(),
-                dto.getGalTitle(),
-                dto.getGalWebImageUrl(),
-                dto.getGalCreatedTime(),
-                dto.getGalModifiedTime(),
-                dto.getGalPhotographyMonth(),
-                dto.getGalPhotographyLocation(),
-                dto.getGalPhotographer(),
-                dto.getGalSearchKeyword()
-        );
-        return apiRepository.save(entity);
-    }
+//    public ApiEntity initApiData(ApiDTO dto) {
+//        ApiEntity entity = new ApiEntity(
+//                dto.getGalContentId(),
+//                dto.getGalContentTypeId(),
+//                dto.getGalTitle(),
+//                dto.getGalWebImageUrl(),
+//                dto.getGalCreatedTime(),
+//                dto.getGalModifiedTime(),
+//                dto.getGalPhotographyMonth(),
+//                dto.getGalPhotographyLocation(),
+//                dto.getGalPhotographer(),
+//                dto.getGalSearchKeyword()
+//        );
+//        return apiRepository.save(entity);
+//    }
     
     /**
      * 동기화
      */
-    public List<ApiEntity> syncPicture() {
-    	String SERVICE_KEY = "XsHEUftHrR8BU7rVbvE/4y3hbn4XXwfS5BpxrMBbTZhGNWqI935dAI6i97WctO3EoAW5saabVeBUWG2qSOp3xg==";
-    	String BASE_URL = "https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1";
-    	
-        int numOfRows = 1000;
-        int pageNo = 1;
-        int totalCount = Integer.MAX_VALUE;
-        List<ApiEntity> newEntities = new ArrayList<>();
-
-        while ((pageNo - 1) * numOfRows < totalCount) {
-            String apiUrl = BASE_URL
-                    + "?serviceKey=" + SERVICE_KEY
-                    + "&numOfRows=" + numOfRows
-                    + "&pageNo=" + pageNo
-                    + "&MobileOS=ETC&MobileApp=AppTest&arrange=A&_type=json";
-
-            Map<String, Object> response = restTemplate.getForObject(apiUrl, Map.class);
-            Map<String, Object> body = (Map<String, Object>) ((Map<String, Object>) response.get("response")).get("body");
-
-            if (totalCount == Integer.MAX_VALUE) {
-                totalCount = ((Number) body.get("totalCount")).intValue();
-            }
-
-            Map<String, Object> items = (Map<String, Object>) body.get("items");
-            List<Map<String, Object>> itemList = (List<Map<String, Object>>) items.get("item");
-
-            for (Map<String, Object> item : itemList) {
-                String galContentId = (String) item.get("galContentId");
-                if (!apiRepository.existsByGalContentId(galContentId)) {
-                    ApiEntity entity = new ApiEntity(
-                            galContentId,
-                            (String) item.get("galContentTypeId"),
-                            (String) item.get("galTitle"),
-                            (String) item.get("galWebImageUrl"),
-                            (String) item.get("galCreatedtime"),
-                            (String) item.get("galModifiedtime"),
-                            (String) item.get("galPhotographyMonth"),
-                            (String) item.get("galPhotographyLocation"),
-                            (String) item.get("galPhotographer"),
-                            (String) item.get("galSearchKeyword")
-                    );
-                    newEntities.add(entity);
-                }
-            }
-
-            pageNo++;
-        }
-
-        if (!newEntities.isEmpty()) {
-            return apiRepository.saveAll(newEntities);
-        }
-
-        return newEntities;
-    }
+//    public List<ApiEntity> syncPicture() {
+//    	String SERVICE_KEY = "XsHEUftHrR8BU7rVbvE/4y3hbn4XXwfS5BpxrMBbTZhGNWqI935dAI6i97WctO3EoAW5saabVeBUWG2qSOp3xg==";
+//    	String BASE_URL = "https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1";
+//    	
+//        int numOfRows = 1000;
+//        int pageNo = 1;
+//        int totalCount = Integer.MAX_VALUE;
+//        List<ApiEntity> newEntities = new ArrayList<>();
+//
+//        while ((pageNo - 1) * numOfRows < totalCount) {
+//            String apiUrl = BASE_URL
+//                    + "?serviceKey=" + SERVICE_KEY
+//                    + "&numOfRows=" + numOfRows
+//                    + "&pageNo=" + pageNo
+//                    + "&MobileOS=ETC&MobileApp=AppTest&arrange=A&_type=json";
+//
+//            Map<String, Object> response = restTemplate.getForObject(apiUrl, Map.class);
+//            Map<String, Object> body = (Map<String, Object>) ((Map<String, Object>) response.get("response")).get("body");
+//
+//            if (totalCount == Integer.MAX_VALUE) {
+//                totalCount = ((Number) body.get("totalCount")).intValue();
+//            }
+//
+//            Map<String, Object> items = (Map<String, Object>) body.get("items");
+//            List<Map<String, Object>> itemList = (List<Map<String, Object>>) items.get("item");
+//
+//            for (Map<String, Object> item : itemList) {
+//                String galContentId = (String) item.get("galContentId");
+//                if (!apiRepository.existsByGalContentId(galContentId)) {
+//                    ApiEntity entity = new ApiEntity(
+//                            galContentId,
+//                            (String) item.get("galContentTypeId"),
+//                            (String) item.get("galTitle"),
+//                            (String) item.get("galWebImageUrl"),
+//                            (String) item.get("galCreatedtime"),
+//                            (String) item.get("galModifiedtime"),
+//                            (String) item.get("galPhotographyMonth"),
+//                            (String) item.get("galPhotographyLocation"),
+//                            (String) item.get("galPhotographer"),
+//                            (String) item.get("galSearchKeyword")
+//                    );
+//                    newEntities.add(entity);
+//                }
+//            }
+//
+//            pageNo++;
+//        }
+//
+//        if (!newEntities.isEmpty()) {
+//            return apiRepository.saveAll(newEntities);
+//        }
+//
+//        return newEntities;
+//    }
 
     /**
      * 목록
@@ -121,10 +118,10 @@ public class ApiService {
         Pageable pageable = PageRequest.of(
             searchDTO.getPage(),
             searchDTO.getSize(),
-            Sort.by(Sort.Direction.DESC, "galCreatedTime")
+            Sort.by(Sort.Direction.DESC, "regDate")
         );
 
-        return apiRepository.findByGalPhotographyLocationContaining(searchDTO.getLocation(), pageable);
+        return apiRepository.findByTitleContaining(searchDTO.getTitle(), pageable);
     }
     
     /**
@@ -139,12 +136,12 @@ public class ApiService {
      */
     @Transactional
     public ApiEntity insertPicture(ApiEntity entity) {
-        if (entity.getGalContentId() == null || entity.getGalContentId().isEmpty()) {
-            entity.setGalContentId(String.valueOf(System.currentTimeMillis()));
+        if (entity.getContentId() == null || entity.getContentId().isEmpty()) {
+            entity.setContentId(String.valueOf(System.currentTimeMillis()));
         }
 
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        entity.setGalCreatedTime(now);
+        entity.setRegDate(now);
 
         return apiRepository.save(entity);
     }

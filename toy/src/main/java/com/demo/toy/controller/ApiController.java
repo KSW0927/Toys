@@ -1,12 +1,9 @@
 package com.demo.toy.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,21 +39,21 @@ public class ApiController {
     /**
      * 동기화
      */
-    @PostMapping("/pictures/sync")
-    @Operation(summary = "명소 데이터 동기화", description = "데이터를 동기화 합니다.")
-    public ResponseEntity<ApiResponse<List<ApiEntity>>> syncPicture() {
-        List<ApiEntity> syncedList = apiService.syncPicture();
-
-        ApiResponse<List<ApiEntity>> response;
-
-        if (syncedList.isEmpty()) {
-            response = new ApiResponse<>(ResponseResult.SUCCESS_NO_DATA, syncedList);
-        } else {
-            response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, syncedList);
-        }
-
-        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response);
-    }
+//    @PostMapping("/pictures/sync")
+//    @Operation(summary = "명소 데이터 동기화", description = "데이터를 동기화 합니다.")
+//    public ResponseEntity<ApiResponse<List<ApiEntity>>> syncPicture() {
+//        List<ApiEntity> syncedList = apiService.syncPicture();
+//
+//        ApiResponse<List<ApiEntity>> response;
+//
+//        if (syncedList.isEmpty()) {
+//            response = new ApiResponse<>(ResponseResult.SUCCESS_NO_DATA, syncedList);
+//        } else {
+//            response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, syncedList);
+//        }
+//
+//        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response);
+//    }
     
     /**
      * 목록

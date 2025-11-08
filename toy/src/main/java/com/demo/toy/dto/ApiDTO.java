@@ -1,133 +1,144 @@
 package com.demo.toy.dto;
 
+import java.math.BigDecimal;
+import com.demo.toy.common.response.ContentType; // ContentType Enum 임포트
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ApiDTO {
 
-    @JsonProperty("galContentId")
-    private String galContentId;
+    @JsonProperty("contentId")
+    private String contentId; 
 
-    @JsonProperty("galContentTypeId")
-    private String galContentTypeId;
+    // ContentType Enum 타입으로 변경
+    @JsonProperty("contentType")
+    private ContentType contentType; 
 
-    @JsonProperty("galTitle")
-    private String galTitle;
+    @JsonProperty("title")
+    private String title;
 
-    @JsonProperty("galWebImageUrl")
-    private String galWebImageUrl;
+    @JsonProperty("coverImageUrl")
+    private String coverImageUrl;
 
-    @JsonProperty("galCreatedtime")
-    private String galCreatedTime;
+    // 가격은 BigDecimal 타입으로 변경 (정확한 금액 처리)
+    @JsonProperty("price")
+    private BigDecimal price; 
 
-    @JsonProperty("galModifiedtime")
-    private String galModifiedTime;
+    // ID는 Long 타입으로 변경
+    @JsonProperty("authorId")
+    private Long authorId; 
 
-    @JsonProperty("galPhotographyMonth")
-    private String galPhotographyMonth;
+    @JsonProperty("description")
+    private String description;
 
-    @JsonProperty("galPhotographyLocation")
-    private String galPhotographyLocation;
+    // 평점도 BigDecimal 타입으로 변경
+    @JsonProperty("ratingAvg")
+    private BigDecimal ratingAvg;
 
-    @JsonProperty("galPhotographer")
-    private String galPhotographer;
+    // 성인 여부는 Boolean 타입으로 변경
+    @JsonProperty("isAdult")
+    private Boolean isAdult;
+    
+    @JsonProperty("regDate")
+    private String regDate;
 
-    @JsonProperty("galSearchKeyword")
-    private String galSearchKeyword;
-
+    // --------------------------------------------------
+    // ❌ 생성자 오류 수정 및 로직 정리
+    // --------------------------------------------------
+    
     public ApiDTO() {}
 
-    public ApiDTO(String galContentId, String galContentTypeId, String galTitle, String galWebImageUrl,
-                  String galCreatedTime, String galModifiedTime, String galPhotographyMonth,
-                  String galPhotographyLocation, String galPhotographer, String galSearchKeyword) {
-        this.galContentId = galContentId;
-        this.galContentTypeId = galContentTypeId;
-        this.galTitle = galTitle;
-        this.galWebImageUrl = galWebImageUrl;
-        this.galCreatedTime = galCreatedTime;
-        this.galModifiedTime = galModifiedTime;
-        this.galPhotographyMonth = galPhotographyMonth;
-        this.galPhotographyLocation = galPhotographyLocation;
-        this.galPhotographer = galPhotographer;
-        this.galSearchKeyword = galSearchKeyword;
+    public ApiDTO(String contentId, ContentType contentType, String title, 
+                  String coverImageUrl, BigDecimal price, Long authorId, 
+                  String description, BigDecimal ratingAvg, Boolean isAdult, String regDate) {
+        this.contentId = contentId;
+        this.contentType = contentType;
+        this.title = title;
+        this.coverImageUrl = coverImageUrl;
+        this.price = price;
+        this.authorId = authorId;
+        this.description = description;
+        this.ratingAvg = ratingAvg;
+        this.isAdult = isAdult;
+        this.regDate = regDate;
     }
 
-    public String getGalContentId() {
-        return galContentId;
-    }
+	public String getContentId() {
+		return contentId;
+	}
 
-    public void setGalContentId(String galContentId) {
-        this.galContentId = galContentId;
-    }
+	public void setContentId(String contentId) {
+		this.contentId = contentId;
+	}
 
-    public String getGalContentTypeId() {
-        return galContentTypeId;
-    }
+	public ContentType getContentType() {
+		return contentType;
+	}
 
-    public void setGalContentTypeId(String galContentTypeId) {
-        this.galContentTypeId = galContentTypeId;
-    }
+	public void setContentType(ContentType contentType) {
+		this.contentType = contentType;
+	}
 
-    public String getGalTitle() {
-        return galTitle;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setGalTitle(String galTitle) {
-        this.galTitle = galTitle;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getGalWebImageUrl() {
-        return galWebImageUrl;
-    }
+	public String getCoverImageUrl() {
+		return coverImageUrl;
+	}
 
-    public void setGalWebImageUrl(String galWebImageUrl) {
-        this.galWebImageUrl = galWebImageUrl;
-    }
+	public void setCoverImageUrl(String coverImageUrl) {
+		this.coverImageUrl = coverImageUrl;
+	}
 
-    public String getGalCreatedTime() {
-        return galCreatedTime;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public void setGalCreatedTime(String galCreatedTime) {
-        this.galCreatedTime = galCreatedTime;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public String getGalModifiedTime() {
-        return galModifiedTime;
-    }
+	public Long getAuthorId() {
+		return authorId;
+	}
 
-    public void setGalModifiedTime(String galModifiedTime) {
-        this.galModifiedTime = galModifiedTime;
-    }
+	public void setAuthorId(Long authorId) {
+		this.authorId = authorId;
+	}
 
-    public String getGalPhotographyMonth() {
-        return galPhotographyMonth;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setGalPhotographyMonth(String galPhotographyMonth) {
-        this.galPhotographyMonth = galPhotographyMonth;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getGalPhotographyLocation() {
-        return galPhotographyLocation;
-    }
+	public BigDecimal getRatingAvg() {
+		return ratingAvg;
+	}
 
-    public void setGalPhotographyLocation(String galPhotographyLocation) {
-        this.galPhotographyLocation = galPhotographyLocation;
-    }
+	public void setRatingAvg(BigDecimal ratingAvg) {
+		this.ratingAvg = ratingAvg;
+	}
 
-    public String getGalPhotographer() {
-        return galPhotographer;
-    }
+	public Boolean getIsAdult() {
+		return isAdult;
+	}
 
-    public void setGalPhotographer(String galPhotographer) {
-        this.galPhotographer = galPhotographer;
-    }
+	public void setIsAdult(Boolean isAdult) {
+		this.isAdult = isAdult;
+	}
 
-    public String getGalSearchKeyword() {
-        return galSearchKeyword;
-    }
+	public String getRegDate() {
+		return regDate;
+	}
 
-    public void setGalSearchKeyword(String galSearchKeyword) {
-        this.galSearchKeyword = galSearchKeyword;
-    }
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
 }

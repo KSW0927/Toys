@@ -2,24 +2,24 @@ package com.demo.toy.dto;
 
 public class ApiSearchParamsDTO {
 
-	private String location;
+	private String title;
     private int page = 0;
     private int size = 9;
 
     public ApiSearchParamsDTO() {}
 
-    public ApiSearchParamsDTO(String location, int page, int size) {
-        this.location = location;
+    public ApiSearchParamsDTO(String title, int page, int size) {
+        this.title = title;
         this.page = page;
         this.size = size;
     }
 
-    public String getLocation() {
-        return location;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getPage() {

@@ -11,7 +11,6 @@ public enum ResponseResult {
     SUCCESS_SIGNUP			(200, "회원가입 성공"),
     SUCCESS_LOGIN			(200, "로그인 성공"),
     SUCCESS_LOGOUT			(200, "정상적으로 로그아웃 되었습니다."),
-    SUCCESS_NO_DATA     	(204, "데이터가 없습니다."),
     SUCCESS_UPLOAD      	(201, "파일 업로드가 완료되었습니다."),
     ERROR_DUPLICATE     	(400, "중복된 아이디 입니다."),
     ERROR_INVALID_PASSWORD	(401, "비밀번호가 일치하지 않습니다."),
