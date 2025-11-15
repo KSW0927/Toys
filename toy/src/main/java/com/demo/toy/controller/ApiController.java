@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/data")
-@Tag(name = "명소 API", description = "사진 업로드, 조회, 삭제 API")
+@Tag(name = "콘텐츠 API", description = "콘텐츠 등록, 수정, 삭제, 조회 API")
 public class ApiController {
 
     private final ApiService apiService;
@@ -36,25 +36,6 @@ public class ApiController {
         this.apiService = apiService;
     }
 
-    /**
-     * 동기화
-     */
-//    @PostMapping("/pictures/sync")
-//    @Operation(summary = "명소 데이터 동기화", description = "데이터를 동기화 합니다.")
-//    public ResponseEntity<ApiResponse<List<ApiEntity>>> syncPicture() {
-//        List<ApiEntity> syncedList = apiService.syncPicture();
-//
-//        ApiResponse<List<ApiEntity>> response;
-//
-//        if (syncedList.isEmpty()) {
-//            response = new ApiResponse<>(ResponseResult.SUCCESS_NO_DATA, syncedList);
-//        } else {
-//            response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, syncedList);
-//        }
-//
-//        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response);
-//    }
-    
     /**
      * 목록
      */
@@ -70,10 +51,10 @@ public class ApiController {
      */
     @PostMapping("/pictures")
     @Operation(summary = "명소 등록", description = "명소를 등록합니다.")
-    public ResponseEntity<String> insertPicture(@RequestBody ApiEntity apiEntity) {
+    public ResponseEntity<ApiResponse<ApiEntity>> insertPicture(@RequestBody ApiEntity apiEntity) {
         ApiEntity saved = apiService.insertPicture(apiEntity);
         ApiResponse<ApiEntity> response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, saved);
-        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response.getMessage());
+        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response);
     }
     
     /**

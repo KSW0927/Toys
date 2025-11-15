@@ -23,7 +23,6 @@ public class ApiEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
- // API의 galContentId를 프로젝트의 고유 식별자로 사용
     @Column(unique = true, nullable = false)
     private String contentId; 
     
@@ -34,8 +33,7 @@ public class ApiEntity {
     // 커버 이미지 URL (API의 galWebImageUrl)
     private String coverImageUrl; 
     
-    // 콘텐츠 유형 (BOOK, WEBTOON, COMIC 등을 구분)
-    // Enum으로 관리하며, 저희의 3단계 구조에서 분류 기준이 됩니다.
+    // 콘텐츠 유형 (BOOK, WEBTOON, COMICS 등을 구분)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContentType contentType; 
@@ -56,16 +54,12 @@ public class ApiEntity {
     private BigDecimal ratingAvg = BigDecimal.ZERO; 
 
     // 성인 콘텐츠 여부
-//    private Boolean isAdult = false; 
-    private String isAdult = ""; 
+    private Boolean isAdult = false; 
     
-    // 등록일 (API의 galCreatedTime을 Project 스타일로 변경 가능)
     private String regDate;
 
-    // 기본 생성자
     public ApiEntity() {}
 
-    // 모든 필드를 받는 생성자 (id 제외)
     public ApiEntity(String contentId, String title, String coverImageUrl, String regDate) {
         this.contentId = contentId;
         this.title = title;
@@ -73,7 +67,7 @@ public class ApiEntity {
         this.regDate = regDate;
         
         // 필수 기본값 설정
-        this.contentType = ContentType.BOOK; // 기본값
+        this.contentType = ContentType.BOOK;
         this.price = BigDecimal.ZERO;
         this.authorId = 0L;
     }
@@ -150,11 +144,11 @@ public class ApiEntity {
 		this.ratingAvg = ratingAvg;
 	}
 
-	public String getIsAdult() {
+	public Boolean getIsAdult() {
 		return isAdult;
 	}
 
-	public void setIsAdult(String isAdult) {
+	public void setIsAdult(Boolean isAdult) {
 		this.isAdult = isAdult;
 	}
 
@@ -168,6 +162,10 @@ public class ApiEntity {
 
 	public void update(ApiDTO dto) {
         this.title = dto.getTitle();
+        this.price = dto.getPrice();
+        this.description = dto.getDescription();
+        this.contentType = dto.getContentType();
+        this.isAdult = dto.getIsAdult();
         this.coverImageUrl = dto.getCoverImageUrl();
     }
 }

@@ -7,7 +7,7 @@ package com.demo.toy.common.response;
 public enum ContentType {
 	BOOK,
 	WEBTOON,
-	COMIC,
+	COMICS,
 	AUDIOBOOK,
 	UNKNOWN 
 }
