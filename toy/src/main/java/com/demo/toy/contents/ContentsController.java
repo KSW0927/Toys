@@ -36,7 +36,7 @@ public class ContentsController {
      * 목록
      */
     @GetMapping("/contents")
-    @Operation(summary = "명소 목록 조회", description = "명소 목록을 조회합니다.")
+    @Operation(summary = "콘텐츠 목록 조회", description = "콘텐츠 목록을 조회합니다.")
     public ResponseEntity<?> getContentsList(ContentsSearchParamsDTO searchDTO) {
         Page<ContentsEntity> result = contentsService.getContentsList(searchDTO);
         return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(result);
@@ -46,7 +46,7 @@ public class ContentsController {
      * 저장
      */
     @PostMapping("/contents")
-    @Operation(summary = "명소 등록", description = "명소를 등록합니다.")
+    @Operation(summary = "콘텐츠 등록", description = "콘텐츠를 등록합니다.")
     public ResponseEntity<ApiResponse<ContentsEntity>> insertContent(@RequestBody ContentsEntity apiEntity) {
         ContentsEntity saved = contentsService.insertContent(apiEntity);
         ApiResponse<ContentsEntity> response = new ApiResponse<>(ResponseResult.SUCCESS_SAVE, saved);
@@ -57,7 +57,7 @@ public class ContentsController {
      * 상세
      */
     @GetMapping("/contents/{contentId}")
-    @Operation(summary = "ㅋ 상세", description = "ID로 명소 상세 정보를 조회합니다.")
+    @Operation(summary = "콘텐츠 상세", description = "ID로 콘텐츠 상세 정보를 조회합니다.")
     public ResponseEntity<?> getContentDetail(@PathVariable("contentId") Long contentId) {
         ContentsEntity entity = contentsService.getContentDetail(contentId);
         return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(entity);
@@ -67,7 +67,7 @@ public class ContentsController {
      * 수정
      */
     @PutMapping("/contents/{contentId}")
-    @Operation(summary = "명소 수정", description = "ID로 명소 상세 정보를 수정합니다.")
+    @Operation(summary = "콘텐츠 수정", description = "ID로 콘텐츠 상세 정보를 수정합니다.")
     public ResponseEntity<String> updateContent(@PathVariable("contentId") Long contentId, @RequestBody ContentsDTO dto) {
         ContentsEntity updated = contentsService.updateContent(contentId, dto);
         ApiResponse<ContentsEntity> response = new ApiResponse<>(ResponseResult.SUCCESS_UPDATE, updated);
@@ -88,7 +88,7 @@ public class ContentsController {
      * 업로드
      */
     @PostMapping("/contents/upload")
-    @Operation(summary = "명소 업로드", description = "명소 이미지를 등록/수정합니다.")
+    @Operation(summary = "콘텐츠 업로드", description = "콘텐츠 이미지를 등록/수정합니다.")
     public ResponseEntity<ApiResponse<String>> uploadContentImage(@RequestParam("file") MultipartFile file) throws IOException {
     	String filePath = contentsService.uploadContentImage(file);
         return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(new ApiResponse<>(ResponseResult.SUCCESS_SAVE, filePath));

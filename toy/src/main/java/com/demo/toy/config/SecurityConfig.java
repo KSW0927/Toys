@@ -34,7 +34,7 @@ public class SecurityConfig {
 	        .authorizeHttpRequests(auth -> auth
 	        		
 	        // 비로그인 허용
-	        .requestMatchers("/api/users/**", "/swagger-ui/**").permitAll()
+	        .requestMatchers("/api/users/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 	        .requestMatchers(HttpMethod.GET, "/api/contents").permitAll()
 	        
 	        // 정적 리소스 허용
