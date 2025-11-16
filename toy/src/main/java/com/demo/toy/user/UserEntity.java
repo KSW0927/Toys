@@ -1,8 +1,8 @@
-package com.demo.toy.entity;
+package com.demo.toy.user;
 
 import java.time.LocalDateTime;
 
-import com.demo.toy.dto.SignUpRequestDTO;
+import com.demo.toy.user.dto.SignUpRequestDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

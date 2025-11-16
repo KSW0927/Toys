@@ -1,4 +1,4 @@
-package com.demo.toy.service;
+package com.demo.toy.user;
 
 import java.time.Duration;
 
@@ -11,11 +11,9 @@ import com.demo.toy.common.exception.BusinessException;
 import com.demo.toy.common.jwt.JwtTokenProvider;
 import com.demo.toy.common.redis.RedisService;
 import com.demo.toy.common.response.ResponseResult;
-import com.demo.toy.dto.LoginResponseDTO;
-import com.demo.toy.dto.SignUpRequestDTO;
-import com.demo.toy.dto.SignUpResponseDTO;
-import com.demo.toy.entity.UserEntity;
-import com.demo.toy.repository.UserRepository;
+import com.demo.toy.user.dto.LoginResponseDTO;
+import com.demo.toy.user.dto.SignUpRequestDTO;
+import com.demo.toy.user.dto.SignUpResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 

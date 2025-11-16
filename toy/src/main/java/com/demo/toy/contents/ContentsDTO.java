@@ -1,13 +1,13 @@
-package com.demo.toy.dto;
+package com.demo.toy.contents;
 
 import java.math.BigDecimal;
 import com.demo.toy.common.response.ContentType; // ContentType Enum 임포트
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ApiDTO {
+public class ContentsDTO {
 
     @JsonProperty("contentId")
-    private String contentId; 
+    private Long contentId; 
 
     // ContentType Enum 타입으로 변경
     @JsonProperty("contentType")
@@ -45,9 +45,9 @@ public class ApiDTO {
     // ❌ 생성자 오류 수정 및 로직 정리
     // --------------------------------------------------
     
-    public ApiDTO() {}
+    public ContentsDTO() {}
 
-    public ApiDTO(String contentId, ContentType contentType, String title, 
+    public ContentsDTO(Long contentId, ContentType contentType, String title, 
                   String coverImageUrl, BigDecimal price, Long authorId, 
                   String description, BigDecimal ratingAvg, Boolean isAdult, String regDate) {
         this.contentId = contentId;
@@ -62,11 +62,11 @@ public class ApiDTO {
         this.regDate = regDate;
     }
 
-	public String getContentId() {
+	public Long getContentId() {
 		return contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(Long contentId) {
 		this.contentId = contentId;
 	}
 
@@ -140,5 +140,12 @@ public class ApiDTO {
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+
+	@Override
+	public String toString() {
+		return "ApiDTO [contentId=" + contentId + ", contentType=" + contentType + ", title=" + title
+				+ ", coverImageUrl=" + coverImageUrl + ", price=" + price + ", authorId=" + authorId + ", description="
+				+ description + ", ratingAvg=" + ratingAvg + ", isAdult=" + isAdult + ", regDate=" + regDate + "]";
 	}
 }

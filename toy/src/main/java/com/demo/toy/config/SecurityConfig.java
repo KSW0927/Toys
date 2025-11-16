@@ -35,13 +35,14 @@ public class SecurityConfig {
 	        		
 	        // 비로그인 허용
 	        .requestMatchers("/api/users/**", "/swagger-ui/**").permitAll()
-	        .requestMatchers(HttpMethod.GET, "/api/data/pictures").permitAll()
+	        .requestMatchers(HttpMethod.GET, "/api/contents").permitAll()
 	        
 	        // 정적 리소스 허용
 	        .requestMatchers("/uploads/**").permitAll()
 	        
 	        // 비로그인 미허용
-	        .requestMatchers("/api/data/pictures/**").authenticated()
+	        .requestMatchers("/api/contents/**").authenticated()
+	        .requestMatchers("/api/comics/**").authenticated()
 	        .anyRequest().authenticated()
 	         );
 	     return http.build();

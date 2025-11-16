@@ -1,66 +1,69 @@
-package com.demo.toy.entity;
+package com.demo.toy.contents;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.demo.toy.comics.ComicsEntity;
 import com.demo.toy.common.response.ContentType;
-import com.demo.toy.dto.ApiDTO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CONTENTS")
-public class ApiEntity {
+public class ContentsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true, nullable = false)
-    private String contentId; 
+    @Column(name = "content_id", nullable = false, updatable = false)
+    private Long contentId; 
     
-    // 제목 (API의 galTitle)
     @Column(length = 255, nullable = false)
     private String title; 
     
-    // 커버 이미지 URL (API의 galWebImageUrl)
     private String coverImageUrl; 
     
-    // 콘텐츠 유형 (BOOK, WEBTOON, COMICS 등을 구분)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContentType contentType; 
 
-    // 가격
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price = BigDecimal.ZERO; 
     
-    // 작가 ID (Authors 테이블의 FK)
     private Long authorId; 
     
-    // 콘텐츠 요약/소개 글
-    @Lob // 데이터베이스에서 TEXT 타입으로 매핑
+    @Lob
     private String description;
     
-    // 사용자 평점 평균
     @Column(precision = 3, scale = 2)
     private BigDecimal ratingAvg = BigDecimal.ZERO; 
 
-    // 성인 콘텐츠 여부
     private Boolean isAdult = false; 
     
     private String regDate;
+    
+    @OneToMany(
+            mappedBy = "content", 			// 자식 entity에 설정된 부모 entity명
+            cascade = CascadeType.REMOVE, 	// 부모 삭제 시 자식도 함께 삭제되도록 설정
+            orphanRemoval = true, 			// 부모 컬렉션에서 제거만 해도 DB에서 삭제되게 하는 옵션
+            fetch = FetchType.LAZY
+        )
+        private List<ComicsEntity> comicsList = new ArrayList<>();
 
-    public ApiEntity() {}
+    public ContentsEntity() {}
 
-    public ApiEntity(String contentId, String title, String coverImageUrl, String regDate) {
+    public ContentsEntity(Long contentId, String title, String coverImageUrl, String regDate) {
         this.contentId = contentId;
         this.title = title;
         this.coverImageUrl = coverImageUrl;
@@ -71,20 +74,21 @@ public class ApiEntity {
         this.price = BigDecimal.ZERO;
         this.authorId = 0L;
     }
+    
+	public void update(ContentsDTO dto) {
+        this.title = dto.getTitle();
+        this.price = dto.getPrice();
+        this.description = dto.getDescription();
+        this.contentType = dto.getContentType();
+        this.isAdult = dto.getIsAdult();
+        this.coverImageUrl = dto.getCoverImageUrl();
+    }
 
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getContentId() {
+	public Long getContentId() {
 		return contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(Long contentId) {
 		this.contentId = contentId;
 	}
 
@@ -159,13 +163,4 @@ public class ApiEntity {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-
-	public void update(ApiDTO dto) {
-        this.title = dto.getTitle();
-        this.price = dto.getPrice();
-        this.description = dto.getDescription();
-        this.contentType = dto.getContentType();
-        this.isAdult = dto.getIsAdult();
-        this.coverImageUrl = dto.getCoverImageUrl();
-    }
 }

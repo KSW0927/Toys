@@ -1,14 +1,14 @@
-package com.demo.toy.dto;
+package com.demo.toy.contents;
 
-public class ApiSearchParamsDTO {
+public class ContentsSearchParamsDTO {
 
 	private String title;
     private int page = 0;
     private int size = 9;
 
-    public ApiSearchParamsDTO() {}
+    public ContentsSearchParamsDTO() {}
 
-    public ApiSearchParamsDTO(String title, int page, int size) {
+    public ContentsSearchParamsDTO(String title, int page, int size) {
         this.title = title;
         this.page = page;
         this.size = size;

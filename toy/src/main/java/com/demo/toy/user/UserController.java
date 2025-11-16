@@ -1,4 +1,4 @@
-package com.demo.toy.controller;
+package com.demo.toy.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.toy.common.response.ApiResponse;
 import com.demo.toy.common.response.ResponseResult;
-import com.demo.toy.dto.LoginRequestDTO;
-import com.demo.toy.dto.LoginResponseDTO;
-import com.demo.toy.dto.SignUpRequestDTO;
-import com.demo.toy.dto.SignUpResponseDTO;
-import com.demo.toy.service.UserService;
+import com.demo.toy.user.dto.LoginRequestDTO;
+import com.demo.toy.user.dto.LoginResponseDTO;
+import com.demo.toy.user.dto.SignUpRequestDTO;
+import com.demo.toy.user.dto.SignUpResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

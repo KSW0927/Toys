@@ -1,4 +1,4 @@
-package com.demo.toy.dto;
+package com.demo.toy.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

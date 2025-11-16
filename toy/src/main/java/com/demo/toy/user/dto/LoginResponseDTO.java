@@ -1,4 +1,4 @@
-package com.demo.toy.dto;
+package com.demo.toy.user.dto;
 
 public class LoginResponseDTO {
     private Long userNo;

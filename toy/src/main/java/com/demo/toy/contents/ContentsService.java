@@ -1,4 +1,4 @@
-package com.demo.toy.service;
+package com.demo.toy.contents;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,64 +18,56 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.demo.toy.common.exception.FileUploadException;
 import com.demo.toy.common.exception.NotFoundException;
-import com.demo.toy.dto.ApiDTO;
-import com.demo.toy.dto.ApiSearchParamsDTO;
-import com.demo.toy.entity.ApiEntity;
-import com.demo.toy.repository.ApiRepository;
 
 @Service
-public class ApiService {
+public class ContentsService {
 
-    private final ApiRepository apiRepository;
+    private final ContentsRepository contentsRepository;
     
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public ApiService(ApiRepository apiRepository, RestTemplate restTemplate) {
-        this.apiRepository = apiRepository;
+    public ContentsService(ContentsRepository contentsRepository, RestTemplate restTemplate) {
+        this.contentsRepository = contentsRepository;
     }
 
     /**
      * 목록
      */
-    public Page<ApiEntity> getPictureList(ApiSearchParamsDTO searchDTO) {
+    public Page<ContentsEntity> getContentsList(ContentsSearchParamsDTO searchDTO) {
         Pageable pageable = PageRequest.of(
             searchDTO.getPage(),
             searchDTO.getSize(),
             Sort.by(Sort.Direction.DESC, "regDate")
         );
 
-        return apiRepository.findByTitleContaining(searchDTO.getTitle(), pageable);
-    }
-    
-    /**
-     * 상세
-     */
-    public ApiEntity getPictureDetail(Long id) {
-    	return apiRepository.findById(id).orElseThrow(() -> new NotFoundException("id=" + id));
+        return contentsRepository.findByTitleContaining(searchDTO.getTitle(), pageable);
     }
     
     /**
      * 저장
      */
     @Transactional
-    public ApiEntity insertPicture(ApiEntity entity) {
-        if (entity.getContentId() == null || entity.getContentId().isEmpty()) {
-            entity.setContentId(String.valueOf(System.currentTimeMillis()));
-        }
-
+    public ContentsEntity insertContent(ContentsEntity entity) {
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         entity.setRegDate(now);
-
-        return apiRepository.save(entity);
+        return contentsRepository.save(entity);
     }
+    
+    /**
+     * 상세
+     */
+    public ContentsEntity getContentDetail(Long contentId) {
+    	return contentsRepository.findById(contentId).orElseThrow(() -> new NotFoundException("contentId=" + contentId));
+    }
+    
     
     /**
      * 수정
      */
     @Transactional
-    public ApiEntity updatePicture(Long id, ApiDTO dto) {
-        ApiEntity entity = apiRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("id=" + id));
+    public ContentsEntity updateContent(Long contentId, ContentsDTO dto) {
+        ContentsEntity entity = contentsRepository.findById(contentId).orElseThrow(() -> new IllegalArgumentException("contentId" + contentId));
         entity.update(dto);
         return entity;
     }
@@ -83,17 +75,17 @@ public class ApiService {
     /**
      * 삭제
      */
-    public void deletePicture(Long id) {
-        if (!apiRepository.existsById(id)) {
-            throw new IllegalArgumentException("id=" + id);
+    public void deleteContent(Long contentId) {
+        if (!contentsRepository.existsById(contentId)) {
+            throw new IllegalArgumentException("contentId=" + contentId);
         }
-        apiRepository.deleteById(id);
+        contentsRepository.deleteById(contentId);
     }
     
     /**
      * 업로드
      */
-    public String uploadPicture(MultipartFile file) {
+    public String uploadContentImage(MultipartFile file) {
         try {
             File dir = new File(uploadDir);
             if (!dir.exists() && !dir.mkdirs()) {

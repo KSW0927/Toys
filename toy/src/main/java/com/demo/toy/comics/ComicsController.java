@@ -29,51 +29,51 @@ public class ComicsController {
     }
 
     /**
-     * 콘텐츠별 권수 목록 조회
+     * 콘텐츠별 목록 조회
      */
-    @GetMapping("/{contentId}")
-    @Operation(summary = "콘텐츠 권수 목록 조회", description = "콘텐츠 ID로 해당 콘텐츠의 권수 정보를 조회합니다.")
-    public ResponseEntity<List<ComicsEntity>> getComicsList(@PathVariable String contentId) {
+    @GetMapping("/{contentId}/volumes")
+    @Operation(summary = "만화 목록 조회", description = "콘텐츠 ID로 해당 콘텐츠의 만화 정보를 조회합니다.")
+    public ResponseEntity<List<ComicsEntity>> getComicsList(@PathVariable("contentId") Long contentId) {
         List<ComicsEntity> result = comicsService.getComicsByContentId(contentId);
         return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(result);
     }
 
     /**
-     * 권수 단건 등록
-     */
-    @PostMapping("/{contentId}")
-    @Operation(summary = "권수 등록", description = "콘텐츠 ID에 권수를 등록합니다.")
-    public ResponseEntity<ComicsEntity> insertComics(@PathVariable String contentId, @RequestBody ComicsDTO dto) {
-        ComicsEntity saved = comicsService.insertComics(contentId, dto);
-        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(saved);
-    }
-
-    /**
-     * 권수 배치 등록
+     * 만화 배치 등록
      */
     @PostMapping("/{contentId}/batch")
-    @Operation(summary = "권수 일괄 등록", description = "콘텐츠 ID에 여러 권수를 일괄 등록합니다.")
-    public ResponseEntity<List<ComicsEntity>> insertComicsBatch(@PathVariable("contentId") String contentId, @RequestBody List<ComicsDTO> dtoList) {
-        List<ComicsEntity> savedList = comicsService.insertComicsBatch(contentId, dtoList);
-        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(savedList);
+    @Operation(summary = "만화 일괄 등록", description = "콘텐츠 ID에 여러 만화를 일괄 등록합니다.")
+    public ResponseEntity<List<ComicsEntity>> insertComicsBatch(@PathVariable("contentId") Long contentId, @RequestBody List<ComicsDTO> dtoList) {
+        List<ComicsEntity> insert = comicsService.insertComicsBatch(contentId, dtoList);
+        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(insert);
+    }
+    
+    /**
+     * 만화 배치 수정
+     */
+    @PutMapping("/{contentId}/batch")
+    @Operation(summary = "만화 일괄 수정", description = "콘텐츠 ID에 여러 만화를 일괄 수정합니다.")
+    public ResponseEntity<List<ComicsEntity>> updateComicsBatch(@PathVariable("contentId") Long contentId, @RequestBody List<ComicsDTO> dtoList) {
+    	List<ComicsEntity> update = comicsService.updateComicsBatch(contentId, dtoList);
+    	return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(update);
     }
 
     /**
      * 권수 단건 수정
      */
-    @PutMapping("/{comicsId}")
-    @Operation(summary = "권수 수정", description = "권수 ID로 권수 정보를 수정합니다.")
-    public ResponseEntity<ComicsEntity> updateComics(@PathVariable("id") String comicsId, @RequestBody ComicsDTO dto) {
-        ComicsEntity updated = comicsService.updateComics(comicsId, dto);
-        return ResponseEntity.status(ResponseResult.SUCCESS_UPDATE.getCode()).body(updated);
-    }
+//    @PutMapping("/{comicsId}")
+//    @Operation(summary = "만화 수정", description = "만화 ID로 권수 정보를 수정합니다.")
+//    public ResponseEntity<ComicsEntity> updateComics(@PathVariable Long comicsId, @RequestBody ComicsDTO dto) {
+//        ComicsEntity updated = comicsService.updateComics(comicsId, dto);
+//        return ResponseEntity.status(ResponseResult.SUCCESS_UPDATE.getCode()).body(updated);
+//    }
 
     /**
      * 권수 삭제
      */
     @DeleteMapping("/{comicsId}")
-    @Operation(summary = "권수 삭제", description = "권수 ID로 권수 정보를 삭제합니다.")
-    public ResponseEntity<String> deleteComics(@PathVariable String comicsId) {
+    @Operation(summary = "만화 삭제", description = "만화 ID로 권수 정보를 삭제합니다.")
+    public ResponseEntity<String> deleteComics(@PathVariable("comicsId") Long comicsId) {
         comicsService.deleteComics(comicsId);
         return ResponseEntity.status(ResponseResult.SUCCESS_DELETE.getCode()).body(ResponseResult.SUCCESS_DELETE.getMessage());
     }

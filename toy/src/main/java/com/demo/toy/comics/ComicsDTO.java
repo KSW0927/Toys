@@ -10,7 +10,7 @@ public class ComicsDTO {
     private String contentId;
 
     @JsonProperty("comicsId")
-    private String comicsId; 
+    private Long comicsId; 
 
     @JsonProperty("volume")
     private Long volume;
@@ -32,7 +32,7 @@ public class ComicsDTO {
 
     public ComicsDTO() {}
 
-    public ComicsDTO(String contentId, String comicsId, Long volume, Long page, 
+    public ComicsDTO(String contentId, Long comicsId, Long volume, Long page, 
                      BigDecimal volumePrice, String volumeImageUrl, String volumeFileSize, 
                      String regDate) {
         this.contentId = contentId;
@@ -53,11 +53,11 @@ public class ComicsDTO {
 		this.contentId = contentId;
 	}
 
-	public String getComicsId() {
+	public Long getComicsId() {
 		return comicsId;
 	}
 
-	public void setComicsId(String comicsId) {
+	public void setComicsId(Long comicsId) {
 		this.comicsId = comicsId;
 	}
 
@@ -107,5 +107,12 @@ public class ComicsDTO {
 
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+
+	@Override
+	public String toString() {
+		return "ComicsDTO [contentId=" + contentId + ", comicsId=" + comicsId + ", volume=" + volume + ", page=" + page
+				+ ", volumePrice=" + volumePrice + ", volumeImageUrl=" + volumeImageUrl + ", volumeFileSize="
+				+ volumeFileSize + ", regDate=" + regDate + "]";
 	}
 }
