@@ -1,4 +1,4 @@
-<h1 align="center">👋3년차 Java 개발자 김석원입니다.</h1>
+<h1 align="center">👋4년차 Java 개발자 김석원입니다.</h1>
 <div align= "center">
     <h2 align="center" style="border-bottom: 1px solid #d8dee4; color: #282d33;">🛠️Tech Stacks</h2><br> 
     <div style="margin: 0 auto; align="center"> <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white">
@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<h3 align="center">공공데이터 포털에 전국의 명소 데이터를 기반으로 Spring Boot + React + JPA를 활용한 토이프로젝트입니다.</h3>
+<h3 align="center">Spring Boot + React + JPA를 활용한 리디(RIDI) 클론코딩 토이 프로젝트입니다.</h3>
 
 <br><br>
 
@@ -25,7 +25,8 @@
 <p align="left">
     1. 기존 코드의 리팩토링 및 보완(상시)<br>
     2. Swagger 연동(2025.10.25 완료)<br>
-    3. 회원가입 및 Docker + Redis + JWT 를 활용한 로그인 및 로그 아웃 기능 구현(10.26 ~ 진행중)<br>
+    3. 회원가입 및 Docker + Redis + JWT 를 활용한 로그인 및 로그 아웃 기능 보완(10.26 ~ 진행중)<br>
+    4. 결제 모듈 적용 예정<br>
 </p><br>
 
 <h3 align="left">1. 전역 예외 처리 구현</h3><br>
