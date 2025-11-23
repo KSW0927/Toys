@@ -18,35 +18,27 @@ import jakarta.persistence.Table;
 @Table(name = "COMICS")
 public class ComicsEntity {
 
-    /** 권(회차) PK */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comics_id", nullable = false, updatable = false)
     private Long comicsId;
-
     
-    /** 부모 콘텐츠 (ManyToOne) */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "content_id", nullable = false)
     private ContentsEntity content;
 
-    /** 몇 권인지 */
     @Column(nullable = false)
     private Long volume;
 
-    /** 총 페이지 수 */
     @Column(nullable = false)
     private Long page;
 
-    /** 권별 가격 */
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal volumePrice = BigDecimal.ZERO;
 
-    /** 권별 이미지 */
     @Column(length = 300)
     private String volumeImageUrl;
 
-    /** 파일 용량 */
     @Column(length = 50)
     private String volumeFileSize;
 

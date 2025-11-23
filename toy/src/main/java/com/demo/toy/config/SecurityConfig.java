@@ -32,15 +32,15 @@ public class SecurityConfig {
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
 	        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
 	        .authorizeHttpRequests(auth -> auth
-	        		
+	        // 정적 리소스 허용
+	        .requestMatchers("/uploads/**").permitAll()
+	        
 	        // 비로그인 허용
 	        .requestMatchers("/api/users/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 	        .requestMatchers(HttpMethod.GET, "/api/contents").permitAll()
 	        
-	        // 정적 리소스 허용
-	        .requestMatchers("/uploads/**").permitAll()
-	        
 	        // 비로그인 미허용
+	        .requestMatchers("/api/common/**").authenticated()
 	        .requestMatchers("/api/contents/**").authenticated()
 	        .requestMatchers("/api/comics/**").authenticated()
 	        .anyRequest().authenticated()
