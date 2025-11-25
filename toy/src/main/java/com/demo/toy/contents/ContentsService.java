@@ -1,9 +1,5 @@
 package com.demo.toy.contents;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +15,6 @@ public class ContentsService {
 
     private final ContentsRepository contentsRepository;
     
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-
     public ContentsService(ContentsRepository contentsRepository, RestTemplate restTemplate) {
         this.contentsRepository = contentsRepository;
     }
@@ -44,8 +37,6 @@ public class ContentsService {
      */
     @Transactional
     public ContentsEntity insertContent(ContentsEntity entity) {
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        entity.setRegDate(now);
         return contentsRepository.save(entity);
     }
     
@@ -55,7 +46,6 @@ public class ContentsService {
     public ContentsEntity getContentDetail(Long contentId) {
     	return contentsRepository.findById(contentId).orElseThrow(() -> new NotFoundException("contentId=" + contentId));
     }
-    
     
     /**
      * 수정

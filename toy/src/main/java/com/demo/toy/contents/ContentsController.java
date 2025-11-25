@@ -29,7 +29,7 @@ public class ContentsController {
     }
 
     /**
-     * 목록
+     * 콘텐츠 목록
      */
     @GetMapping("/contents")
     @Operation(summary = "콘텐츠 목록 조회", description = "콘텐츠 목록을 조회합니다.")
@@ -39,7 +39,7 @@ public class ContentsController {
     }
     
     /**
-     * 생성
+     * 콘텐츠 등록
      */
     @PostMapping("/contents")
     @Operation(summary = "콘텐츠 생성", description = "콘텐츠를 생성합니다.")
@@ -50,7 +50,7 @@ public class ContentsController {
     }
     
     /**
-     * 반영
+     * 콘텐츠 등록 반영
      */
     @PostMapping("/contents/{contentId}/finalize")
     @Operation(summary = "콘텐츠 등록", description = "최초 생성 후 DB에 반영합니다.")
@@ -61,18 +61,18 @@ public class ContentsController {
     }
     
     /**
-     * 상세
+     * 콘텐츠 상세
      */
     @GetMapping("/contents/{contentId}")
     @Operation(summary = "콘텐츠 상세", description = "ID로 콘텐츠 상세 정보를 조회합니다.")
     public ResponseEntity<Object> getContentDetail(@PathVariable("contentId") Long contentId) {
         ContentsEntity detail = contentsService.getContentDetail(contentId);
         ApiResponse<ContentsEntity> response = new ApiResponse<>(ResponseResult.SUCCESS_READ, detail);
-        return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(response.getData());
+        return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(response);
     }
 
     /**
-     * 수정
+     * 콘텐츠 수정
      */
     @PutMapping("/contents/{contentId}")
     @Operation(summary = "콘텐츠 수정", description = "ID로 콘텐츠 상세 정보를 수정합니다.")
@@ -83,7 +83,7 @@ public class ContentsController {
     }
     
     /**
-     * 삭제
+     * 콘텐츠 삭제
      */
     @DeleteMapping("/contents/{contentId}")
     @Operation(summary = "콘텐츠 삭제", description = "ID로 콘텐츠 상세 정보를 삭제합니다.")

@@ -1,6 +1,9 @@
 package com.demo.toy.comics;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.demo.toy.contents.ContentsEntity;
 
@@ -42,8 +45,9 @@ public class ComicsEntity {
     @Column(length = 50)
     private String volumeFileSize;
 
-    @Column(length = 20)
-    private String regDate;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime regDate;
 
 	public Long getComicsId() {
 		return comicsId;
@@ -101,18 +105,11 @@ public class ComicsEntity {
 		this.volumeFileSize = volumeFileSize;
 	}
 
-	public String getRegDate() {
+	public LocalDateTime getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(String regDate) {
+	public void setRegDate(LocalDateTime regDate) {
 		this.regDate = regDate;
-	}
-
-	@Override
-	public String toString() {
-		return "ComicsEntity [comicsId=" + comicsId + ", content=" + content + ", volume=" + volume + ", page=" + page
-				+ ", volumePrice=" + volumePrice + ", volumeImageUrl=" + volumeImageUrl + ", volumeFileSize="
-				+ volumeFileSize + ", regDate=" + regDate + "]";
 	}
 }

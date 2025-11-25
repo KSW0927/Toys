@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/comics")
-@Tag(name = "만화 API", description = "만화 별 데이터 등록, 수정, 삭제, 조회 API")
+@Tag(name = "만화 API", description = "콘텐츠 별 만화 메타데이터 등록, 수정, 삭제, 조회 API")
 public class ComicsController {
 
     private final ComicsService comicsService;
@@ -29,37 +29,37 @@ public class ComicsController {
     }
 
     /**
-     * 콘텐츠 별 목록 조회
+     * 만화 메타데이터 조회
      */
     @GetMapping("/{contentId}/volumes")
     @Operation(summary = "만화 목록 조회", description = "콘텐츠 ID로 해당 콘텐츠의 만화 정보를 조회합니다.")
     public ResponseEntity<List<ComicsEntity>> getComicsList(@PathVariable("contentId") Long contentId) {
-        List<ComicsEntity> result = comicsService.getComicsByContentId(contentId);
-        return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(result);
+        List<ComicsEntity> response = comicsService.getComicsByContentId(contentId);
+        return ResponseEntity.status(ResponseResult.SUCCESS_READ.getCode()).body(response);
     }
 
     /**
-     * 만화 배치 등록
+     * 만화 메타데이터 등록
      */
     @PostMapping("/{contentId}/volumes")
     @Operation(summary = "만화 일괄 등록", description = "콘텐츠 ID에 여러 만화를 일괄 등록합니다.")
     public ResponseEntity<List<ComicsEntity>> insertComicsBatch(@PathVariable("contentId") Long contentId, @RequestBody List<ComicsDTO> dtoList) {
-        List<ComicsEntity> insert = comicsService.insertComicsBatch(contentId, dtoList);
-        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(insert);
+        List<ComicsEntity> response = comicsService.insertComicsBatch(contentId, dtoList);
+        return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(response);
     }
     
     /**
-     * 만화 배치 수정
+     * 만화 메타데이터 수정
      */
     @PutMapping("/{contentId}/volumes")
     @Operation(summary = "만화 일괄 수정", description = "콘텐츠 ID에 여러 만화를 일괄 수정합니다.")
     public ResponseEntity<List<ComicsEntity>> updateComicsBatch(@PathVariable("contentId") Long contentId, @RequestBody List<ComicsDTO> dtoList) {
-    	List<ComicsEntity> update = comicsService.updateComicsBatch(contentId, dtoList);
-    	return ResponseEntity.status(ResponseResult.SUCCESS_SAVE.getCode()).body(update);
+    	List<ComicsEntity> response = comicsService.updateComicsBatch(contentId, dtoList);
+    	return ResponseEntity.status(ResponseResult.SUCCESS_UPDATE.getCode()).body(response);
     }
 
     /**
-     * 권수 삭제
+     * 만화 메타데이터 삭제
      */
     @DeleteMapping("/{contentId}/volumes/{comicsId}")
     @Operation(summary = "만화 삭제", description = "만화 ID로 권수 정보를 삭제합니다.")

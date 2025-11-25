@@ -1,8 +1,11 @@
 package com.demo.toy.contents;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.demo.toy.comics.ComicsEntity;
 import com.demo.toy.common.response.ContentType;
@@ -51,7 +54,9 @@ public class ContentsEntity {
 
     private Boolean isAdult = false; 
     
-    private String regDate;
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime regDate;
     
     @OneToMany(
             mappedBy = "content", 			// 자식 entity에 설정된 부모 entity명
@@ -63,13 +68,12 @@ public class ContentsEntity {
 
     public ContentsEntity() {}
 
-    public ContentsEntity(Long contentId, String title, String coverImageUrl, String regDate) {
+    public ContentsEntity(Long contentId, String title, String coverImageUrl, LocalDateTime regDate) {
         this.contentId = contentId;
         this.title = title;
         this.coverImageUrl = coverImageUrl;
         this.regDate = regDate;
         
-        // 필수 기본값 설정
         this.contentType = ContentType.BOOK;
         this.price = BigDecimal.ZERO;
         this.authorId = 0L;
@@ -156,11 +160,11 @@ public class ContentsEntity {
 		this.isAdult = isAdult;
 	}
 
-	public String getRegDate() {
+	public LocalDateTime getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(String regDate) {
+	public void setRegDate(LocalDateTime regDate) {
 		this.regDate = regDate;
 	}
 }
