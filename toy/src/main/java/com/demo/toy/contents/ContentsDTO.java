@@ -9,7 +9,6 @@ public class ContentsDTO {
     @JsonProperty("contentId")
     private Long contentId; 
 
-    // ContentType Enum 타입으로 변경
     @JsonProperty("contentType")
     private ContentType contentType; 
 
@@ -19,32 +18,24 @@ public class ContentsDTO {
     @JsonProperty("coverImageUrl")
     private String coverImageUrl;
 
-    // 가격은 BigDecimal 타입으로 변경 (정확한 금액 처리)
     @JsonProperty("price")
     private BigDecimal price; 
 
-    // ID는 Long 타입으로 변경
     @JsonProperty("authorId")
     private Long authorId; 
 
     @JsonProperty("description")
     private String description;
 
-    // 평점도 BigDecimal 타입으로 변경
     @JsonProperty("ratingAvg")
     private BigDecimal ratingAvg;
 
-    // 성인 여부는 Boolean 타입으로 변경
     @JsonProperty("isAdult")
     private Boolean isAdult;
     
     @JsonProperty("regDate")
     private String regDate;
 
-    // --------------------------------------------------
-    // ❌ 생성자 오류 수정 및 로직 정리
-    // --------------------------------------------------
-    
     public ContentsDTO() {}
 
     public ContentsDTO(Long contentId, ContentType contentType, String title, 

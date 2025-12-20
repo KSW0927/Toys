@@ -30,4 +30,6 @@ public interface ComicsRepository extends JpaRepository<ComicsEntity, Long> {
      * 삭제 시 존재 여부 확인용
      */
     boolean existsByComicsId(Long comicsId);
+    
+    Optional<ComicsEntity> findByComicsIdAndContent_ContentId(Long comicsId, Long contentId);
 }

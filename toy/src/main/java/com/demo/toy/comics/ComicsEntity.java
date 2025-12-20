@@ -31,10 +31,10 @@ public class ComicsEntity {
     private ContentsEntity content;
 
     @Column(nullable = false)
-    private Long volume;
+    private Integer volume;
 
     @Column(nullable = false)
-    private Long page;
+    private Integer page;
 
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal volumePrice = BigDecimal.ZERO;
@@ -48,6 +48,35 @@ public class ComicsEntity {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime regDate;
+    
+    // 등록
+    public static ComicsEntity create(
+            ContentsEntity content,
+            Integer volume,
+            Integer page,
+            BigDecimal volumePrice,
+            String volumeImageUrl,
+            String volumeFileSize
+        ) {
+            ComicsEntity entity = new ComicsEntity();
+            entity.content = content;
+            entity.volume = volume;
+            entity.page = page;
+            entity.volumePrice =
+                volumePrice != null ? volumePrice : BigDecimal.ZERO;
+            entity.volumeImageUrl = volumeImageUrl;
+            entity.volumeFileSize = volumeFileSize;
+            return entity;
+        }
+    
+    // 수정
+    public void update(ComicsUpdateDTO dto) {
+        this.volume = dto.getVolume();
+        this.page = dto.getPage();
+        this.volumePrice = dto.getVolumePrice() != null ? dto.getVolumePrice() : BigDecimal.ZERO;
+        this.volumeImageUrl = dto.getVolumeImageUrl();
+        this.volumeFileSize = dto.getVolumeFileSize();
+    }
 
 	public Long getComicsId() {
 		return comicsId;
@@ -65,19 +94,19 @@ public class ComicsEntity {
 		this.content = content;
 	}
 
-	public Long getVolume() {
+	public Integer getVolume() {
 		return volume;
 	}
 
-	public void setVolume(Long volume) {
+	public void setVolume(Integer volume) {
 		this.volume = volume;
 	}
 
-	public Long getPage() {
+	public Integer getPage() {
 		return page;
 	}
 
-	public void setPage(Long page) {
+	public void setPage(Integer page) {
 		this.page = page;
 	}
 
